@@ -1,0 +1,47 @@
+---
+layout: bootcamp
+root: .
+venue: Space Telescope Science Institute
+address: 3700 San Martin Drive, Baltimore, MD 21218
+country: United-States
+humandate: Sept 16-17, 2013
+humantime: 9:00 am - 4:30 pm
+startdate: 2013-09-16
+enddate: 2013-09-17
+latlng: 39.33272,-76.62327
+registration: restricted
+instructor: ["Azalee Bostroem", "Erik Bray", "Justin Ely", "Greg Wilson"]
+contact: gvwilson@software-carpentry.org
+---
+{% include bootcamps/instructors.html %}
+{% include bootcamps/what.html %}
+{% include bootcamps/who.html %}
+{% include bootcamps/requirements.html %}
+<p><strong>Content:</strong> The syllabus for this boot camp will include:</p>
+<ul>
+  <li>using Git for version control</li>
+  <li>basic Python programming</li>
+  <li>unit testing and test-driven development</li>
+  <li>object-oriented programming in Python</li>
+  <li>NumPy, matplotlib, and PyFITS</li>
+</ul>
+{% include bootcamps/contact.html %}
+
+<hr/>
+
+<h2>Setup</h2>
+
+<div class="row-fluid">
+  <div class="span6">
+    {% include setup/overview-git.html %}
+    {% include setup/linux-git.html %}
+    {% include setup/macosx-git.html %}
+    {% include setup/windows-git.html %}
+  </div>
+  <div class="span6">
+    {% include setup/overview-python.html %}
+    {% include setup/linux-python.html %}
+    {% include setup/macosx-python.html %}
+    {% include setup/windows-python.html %}
+  </div>
+</div>
