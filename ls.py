@@ -1,20 +1,20 @@
+import argparse
 import os
 import sys
 
 hidden = False
 
-if len(sys.argv) == 1:
-    path = '.'
-elif len(sys.argv) == 2:
-    if sys.argv[1] == '-a':
-        path = '.'
-        hidden = True
-    else:
-        path = sys.argv[1]
-elif len(sys.argv) == 3:
-    if sys.argv[1] == '-a':
-        hidden = True
-    path = sys.argv[2]
+parser = argparse.ArgumentParser(
+        description="Lists files and directories")
+parser.add_argument('path', metavar='PATH',
+                    nargs='?', default='.',
+                    help='a directory to list the contents of')
+parser.add_argument('--all', '-a', action='store_true',
+                    help='show all')
+options = parser.parse_args()
+
+hidden = options.all
+path = options.path
 
 if not os.path.exists(path):
     print 'File/directory ', path, 'does not exist.'
