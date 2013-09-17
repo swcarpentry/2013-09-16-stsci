@@ -1,0 +1,743 @@
+You may enjoy:
+ * Inventing on Principle: http://vimeo.com/36579366
+ * The Future of Programming: https://www.youtube.com/watch?feature=player_embedded&v=8pTEmbeENF4
+
+Well, that didn't work, so try: https://etherpad.mozilla.org/stsci-0
+
+DAY 1:
+ * 9am - 9:30 intro - Greg
+ * 9:30 - 11 Local Git - Azalee
+ * 11:30 - 12:30 Lunch
+ * 12:30 - 2- Python (2 rooms - Erik and Justin)
+ * 2 - 2:10 - Break
+ * 2:10 - 3:30 Python (2 rooms)
+ * 3:30 - 3:40 - Break
+ * 3:40 - 5 Object Oriented Programming - Greg
+
+DAY 2:
+ * 9 - 10:30 - Distributed Git
+ * 10:30 - 10:45 - break
+ * 10:45 - 12:15 - Test Driven Development
+   * http://software-carpentry.org/blog/2013/03/testing-image-processing.html
+ * 12:15 - 1 - Lunch
+ * 1 - 3 - Numpy, matplotlib, pyfits (2 rooms - Erik (beginner) + Azalee)
+ * 3 - 3:15 - Break
+ * 3:15 - Closing
+
+Azalee: introduction to version control using Git
+ * "It changed my life!"
+ * Keeping track of what you did, when
+ * Collaborate with others
+ * Can go back to older versions 
+ * "The person I collaborate with most is me, and me from two months ago doesn't answer email."
+
+Overview of Git
+ * Use "git init" to turn any directory into a repository
+ * Use "git add" to say, "I want this file added to a set of changes I'm going to save"
+ * Use "git commit" to say, "I'm sure I want to save this snapshot, so please do it"
+ * Can  connect your local repository (on your machine) to a remote repository  (on a website like GitHub) to share work with other people
+
+Configuring Git (needs to be done once per machine)
+ * git config --global user.name "Isaac Newton"
+ * git config --global user.email isaac.newton@cam.ac.uk
+ * git config --global color.ui auto
+
+Let's Create a Project
+ * mkdir swc_local # create a directory for the project
+ * cd swc_local # because we don't want to make our entire home directory a project :-)
+ * git init
+ * ls -a => there is now a folder called .git that holds all of Git's information about the project
+
+Getting Help
+ * git status => what's the status of all my files (modified, unmodified, untracked, ...)
+ * git help => here are the commands you might be interested in
+ * git help command => help on that command (e.g. git help add)
+
+Now We'll Add Something to the Staging Area (i.e., we're going to ask Git to start tracking it)
+ * Create a file called 'test.txt'
+ * git add test.txt => puts test.txt in the staging area, but does not save the changes yet (because you might change your mind or mistype things or...)
+ * Exercise: create a file called names.txt, put your name in it, start tracking it, check its status
+
+Oh no, I'm stuck in Vi!
+ * type 'i' to start adding text ('a' works too!)
+ * type 'escape' to get out of text-adding mode and back into command mode
+ * type ':wq' to (a) get to the command prompt, (b) write the file, and (c) quit the editor
+
+Now We'll Commit
+ * git commit -m "this is my commit message"
+ * saves the snapshot that's in the staging area
+ * records the log message that you give it
+ * if you don't use -m "some message", Git runs your editor (probably Vi) and asks you to enter a long message
+ * git log => prints a record of what's been done
+ * Now modify the file again
+ * git add names.txt # it changed, so we have to tell Git we want this change saved
+ * git commit # without -m, so we'll write a longer message
+ * Into the editor we go - initialized with a few lines of comments explaining what we've done and what's left to do
+ * Write the message, save and exit, the commit goes through
+ * git status => clean, pristine directory
+
+How to Undo Things
+ * modify a file, but haven't staged with 'git add' yet: git checkout -- filename
+ * staged with 'git add', but haven't committed: git reset HEAD filename
+
+How to Show Differences
+ * Use 'git diff' to show differences
+ * Use 'git diff filename' to show differences to just one file
+
+How to branch
+ * git branch branch_name
+ * git branch (to see what branch I am in)
+ * git checkout branch_name (to 'cd' to that branch)
+
+Changes made in branches are isolated from each other.  This is cool!
+
+Exericse 6:
+Please do this starting in your 'master' branch
+ * Create a new file called learned.txt and type something new you learned today
+ * before you add and commit the file:
+   * is it visible in your file system when youa re on the master branch?
+   * what about from the testing branch?
+ * add and commit your file to your master branch
+ * now is it visible in your file system on the master branch? on testing? why is this different from #2?
+ * create a branch called exercise from master
+ * move to exercise branch and modify learned.txt
+ * add and commit learned.txt to the exercise branch
+ * go to the master branch. are your modifications to learned.txt visible?
+ * modify learned.txt on your master branch. before you commit your changes, try to move to the exercise branch. can you? what error message do you get?
+ * add and commit your changes to the master branch
+
+Note: Git doesn't want you to leave a branch if you have unsaved changes.
+
+And Finally, Merging
+ * Use it to bring changes from one branch into another
+ * in branch X, say 'git merge Y' to bring in changes from branch Y
+ * If two files are the same, or conflicts in one file are non-overlapping, it just works
+ * If changes conflict, you have to resolve (edit the file(s) to remove the conflict)
+
+If you want to delete a branch after you've merged its changes somewhere else:
+ * git branch -d branch_name
+
+http://pcottle.github.io/learnGitBranching/
+
+Step 1: go back to your home directory (not your swc_local directory)
+Step 2: git clone --branch students https://github.com/swcarpentry/2013-09-16-stsci.git
+
+Python Intro Session
+Etherpad: https://etherpad.mozilla.org/stsci-1
+
+
+Python Advanced Session
+ * git clone --branch python-adv https://github.com/swcarpentry/2013-09-16-stsci.git python-adv
+
+
+Erik will commit after every change we make and at the end of the lesson you can get the history of his changes
+working with ls.py
+Basic argument handling
+sys.argv
+sys.argv - a list of argument passed into a program
+ * The first item in the list is the name of the program, everything after that is passed in
+ * this is a very simplified way of passing in arguments and can break easily. 
+ * Better: argparse module
+argparse:
+ * parser = argparse.ArgumentParser(description = "Lists files and directories")
+   * #description: simple 1 line description of what ls.py does
+ * parser.parse_args()
+ * parser.add_argument('path', metavar = 'PATH', help = ' a directory to list to content of')
+python ls.py --help
+    This has built up the help for us
+    If path is not specified, tells you that path is required
+ * parser = argparse.ArgumentParser(description = "Lists files and directories", nargs = '?', default = '.')
+python ls.py --help
+now PATH is in brackets because it is optional
+ * parser.add_argument('--all', '-a', action = 'store_true', help = 'show all')
+ * #tell argparse how to store the argument - true if specified, false if not specified
+ * options = parser.parse_args() 
+ * #Delete the arg parsing
+ * #options is a special python object which has all optional arguments as attributes
+ * hidden = options.all
+ * #Erik committed here
+
+Writting a better program
+We want the argument parsing to be separate from the scientific code. The scientific code just wants a list of files, it doesn't care where is came from. Break the argument parsing into a separate function
+
+ * def list_files(path, hidden = False):
+ * #include everyint except the argument parsing
+ * Make a "main function"
+ * def main():
+   * argument parsing code
+   * list_files(path, hidden = hidden)
+ * main()
+ * if you import this as is, it will always call main(), instead put
+   * if __name__ == "__main__":
+     * main()
+   * __name__ is a default attribute defined on every module 
+   * __ means built in and you probably shouldn't mess with this
+   * python prompt is a module with the __name__ = main()
+   * --> when you run a module as a script the __name__ attribute is main
+   * if you import the script, then __name__ is the name of the module
+
+Make a file called foo.py and print __name__
+
+Break script into a few different files
+break code into different importable scripts, but have a default scipt which is the one you originally wrote the scripts for. This is also an example of how to use the different pieces
+Erik's conventions: Put all of the main function stuff into a module called main.py and put the implementation stuff into other files
+ * Put main function in main.py
+ * don't forget to add your import statements
+   * import argparse
+   * import ls
+   * change list_files --> ls.list_files()
+ * remove argparse from ls.py
+Erik commited both files here
+
+Keeping your scripts together
+ * one option: you can edith your python path so that main can always find ls then cross your fingers that the most up to date version of ls is in the first path in your list of paths
+ * better option: put it into a package
+
+Package:
+Take a directory and turn it into a module which has sub modules
+ex: os is a package which has a sub-module called path
+Make a package called myls
+ * mkdir myls
+ * mv main.py myls
+ * mv ls.py myls
+ * This is not a package yet, we need a special touchstone to tell it that this folder should be treated as a python package
+ * This is called __init__.py - this can be blank
+ * touch myls/__init__.py
+ * Now python knows that myls is a module and you can import myls
+ * myls.ls() does not work (yet)
+ * typing myls it imports __init__.py, so what ever is in __init__.py is in your module (right now the myls namespace is empty
+ * In __init__.py
+   * print 'Importing myls'
+   * from myls import ls
+   * from myls import main
+   * # Look under the folder called myls for a module called ls and a module called main and import them
+   * # It is better to say from myls import main rather than just import main
+ * Now from the python interpreter:
+   * >>>import myls
+   * >>>myls.main
+   * >>>myls.ls.list_files('.')
+
+
+Questions from the class
+Conditional vs explicit arguments:
+ * Positions - filename or number of filenames
+ * programs are confusing if there are too many positional arguments
+ * try to make anything that is optional and optional parameter
+the list_files function uses os, do you have to explicitly import os or import it in list_files if you use list_files in another code ?
+    No, haivng the import statement at the tome of the
+    
+##########BREAK################
+to get Erik's Changes:
+cd python-adv
+Reset the state of the repository to the last commit Erik made: git reset --hard HEAD
+git pull
+################################
+What if I want to run the ls program? You have to type:
+    python myls/main.py
+What you want is to type: myls
+People just want a program to run they don't care what languge was used to write it
+
+mkdir scripts
+in scripts/myls
+    #!/usr/bin/env python
+ * #set up an environment like I have in my shell and run python with these environment variables
+    import myls
+    myls.main.main()
+chmod +x scripts/myls
+scripts/myls
+You get an error message, so how does scripts/myls know where to find the myls module?
+
+Goal:
+We want tto write a script which automatically puts your script in the folder where your machine puts 3rd party software by runnint setup.py
+
+Create a file called setup.py in the folder with the scripts and myls folders
+
+In setup.py:
+ * #!/usr/bin/env python
+ * 
+ * from distutils import setup
+   * distutils is a package in the standard library which implements all of the python magic which handles where the scripts should go, which scripts should be copied, etc.
+   * Specify metadata for project
+ * setup(name = 'myls', 
+                version = '0.1', 
+                author = 'Erik Bray',
+                packages = ['myls'], #This is the package (folder) myls
+                scripts = ['scripts/myls']  #this is the file we created int eh scripts directory
+                
+ * packages says: look for packages with this name side by side with setup.py and copy them to site-packages
+ * scripts: copy script into the /bin directory where you python executable lives
+Problem: we started with one file: ls.py, we broke this into 2 files, we made a directory, then we made another directory, and another file. How do we get all of this to other people?
+Solution:
+./setup.py sdist
+
+this creates a file called dist and MANIFEST
+In dist is a targ file with a version number. You can give this tar file to your friends
+In tar file;
+ * All files and PKG-INFO
+
+Put 2 files in the root directory of all packages you create
+ * LICENSE - here are the terms for reusing this software
+ * CITATION - How do you want people to cite this software
+
+README is also a good idea
+
+Another snag: permissions
+To install: setup.py install
+Python now knows where it needs to copy files to
+
+You may have to type: rehash
+If you change something in your package, you have to re-run setup.py
+
+By putting your main function in a submodule of myls, you can test main much more easily
+
+setup.py - builds packages and does 
+myls script: import package and runs main script in package. This can be run from the shell
+myls package - we can import this package into other scripts
+
+What if I don't have permissions to write to site-packages or /usr/bin or you want to install somewhere (you don't want to update your whole system)?
+
+virtualenv. This is an alternative to py-lib and py-bin
+    This balances reproducibility and ease
+    
+This is in the basic stsci_python installation
+
+virtualenv creates a mini file system
+In your home directory:
+ * virtualenv myenv
+ *  #This creates a folder called myenv
+ * in myenv:
+   * lib, bin, include folders
+   * in lib:
+     * some of the python standard library, some are symbolic links, doesn't copy whole library
+     * site-packages folder to install packages into
+   * in bin:
+     * python executable
+       * myenv/bin/python runs the virtualenv python
+       * -or-in myenv/bin source activate.csh
+         * this changes you prompt to tell you which env you are in
+         * try: which python - this will point to your 
+     * pip - for installing python packages
+Go back to python-adv folder (we are still using the myenv executable)
+type: python setup.py install
+setup.py looks at paths relative to your python executable, so this will put things in your myenv folder system site-packages and bins
+>>>import myls
+>>>myls.__file__ tells you the name of the file from which the module was imported
+
+pip install requests
+(this is a small 3rd party software to form http requests)
+pip freeze   this is a list of packages installed and which version was installed
+notice this prints our package too
+virtualenv by default keeps all python packages in your default installation available
+
+to get out of your virtual environment type:
+deactivate
+
+If you want to remove your virtualenv:
+    rm -rf myenv
+
+Create a new myenv (since we just deleted our previous version)
+    virtualenv --no-site-packages myenv
+    this does not port your currently installed python packages to your virtualenv
+    Erik likes to alias activate to:
+        alias activate "source \!*/bin/activate.csh"
+        now you can just type activate to enter your virtualenv
+type:
+    activate myenv
+
+You can give pip the tar file created in the dist folder when we ran ./setup.py sdist and it will unpack the tar file and run setup.py
+    pip install tar_file
+        
+to store the list of packages you used in your virtualenv
+    pip freeze > requirements.txt
+    
+You can put this requirements.txt document to your version control system. This is a way to record a stable environment for your code
+
+When you create a new virtual environment you can install all of the versions from your requirements.txt file by typing:
+pip install -r requirements.txt
+
+This does not have your personal package because it is not on the python package index (which is where pip looks for packages). You will have to install your package separately
+
+This can be useful to have a developments_requirements.txt and stable_requirements.txt which allows you to have define an environment with the newest packages available and a version with stable versions
+
+How do you increment your version #s?
+ * Semantic version - this tells you how you should update your version numbers (http://semver.org/)
+ * major.minor.patch
+ * patch - doesn't change anything about the implementation - bug fix
+ * minor - add functionality
+ * major - incompatible API change
+
+======================================================================
+DAY 2
+======================================================================
+Distributed Git
+ * Everyone should have an account on GitHub.com
+ * pcottle.github.io/learnGitBranching/?NODEMO
+ * Once a branch has been merged into another branch, there is nothing that says which commit came from which branch, all commits are shown chronologically
+In the command line:
+ * $ mkdir test_repo
+ * $ cd test_repo
+ * $ git init
+ * $ vi bio.txt
+   * write a note about yourself
+ * $ git add bio.txt
+ * $ git commit -m "added my bio"
+ * $ vi bio.txt
+   * edit bio
+ * $ git add bio.txt
+ * $ git commit -m "added some pets"
+ * $ git branch experiment
+ * $ git checkout experiment
+ * $ vi bio.txt
+   * edit bio.txt
+ * $ git add bio.txt
+ * $ git commit -m "experiment with new hair"
+ * $ git checkout master
+ * $ vi bio.txt
+   * edit bio
+ * $ git add bio.txt
+ * $ git commit -m "added note about my hair"
+ * When you run git log, you can see what changed:
+   * $ git log -p
+ * If I merge Master and Experiment, I will get a conflict over my hair style, but what happens to the history of Master once I resolve this conflict?
+ * $ git merge experiment
+ * Resolve conflict in editor
+ * $ git add bio.txt
+ * $ git commit 
+ * $ git log --parents
+ * You will see 2 commit hashes. One is for the commit and the other is for that commits parent (which commits were made before your commit). When you merge, you will have 3 commit hashes - one from each branch
+ * The patch you see in merged commits is the 
+
+Sharing and collaborating on code:
+ * You can checkout a specific version of a repository
+ * Everything we've done so far has been without a network
+ * Everything that makes your folder a repository lives in the .git folder
+ * Yesterday, we used a command: git clone --branch students https://github.com/swcarpentry/2013-09-16-stsci.git 
+ * In general cloning is not like a checkout where you get one version of a repository, when you clone a repository, you get the entire history and all branches of a repository. In this case, we asked you to clone a single branch explictly.
+ * This gives you your own local copy of the repository. Adding and commiting changes only changed your local copy, it doesn't do anything to the remote repository or the repository of any collaborators.
+ * log onto github.com
+ * 2 options for remote repositories:
+   * you can start on github. Create your repository online, and then clone it to make a local copy. You have to know at the start of the project that you want a remote repository
+   * you can create a repository on github without creating a README. Follow the directions to push an existing repository from the command line. This connects a local repository to the remote repository you just created.
+     * create a repository on github called my_bio
+     * create a local repository called my_bio
+     * cd into your local my_bio folder
+     * $ git remote add origin https://github.com/embray/my_bio.git
+     * $ git push -u origin master
+       * go to origin repository (on line) and look at master branch and compare it to the local repository branch master and merge the local repository into the remote repository
+       * this does not put the experiment branch into the remote repository
+       * git push -u origin experiment
+         * this puts the experiment branch in the remote repository
+ * By default, your remote repository is called origin (this is a nickname)
+ * git and github are 2 different things. Git is a tool for version control, github is a web service for storing remote repository. Github gives free public repositories. Bitbucket is another web service for storing remote repositories which gives free private repositories.
+ * You can change the name of a repository folder. The repository cares about the .git folder inside it
+ * $ vi bio.txt
+   * edit bio.txt
+ * $ git add bio.txt
+ * $ git commit -m "added my bird"
+ * This change has not been made to the remote repository
+ * $ git push origin master
+   * this updates origin (your remote repository) with the changes on the master branch of your local repository
+ * Blame: this shows you line by line in a file, who committed the last change
+ * check that you have swc_local (this is the repository you created yesterday)
+ * two different people can have local clones of the same repository. Each of them can push their changes to the remote repository
+ * You may not want everyone to be able to change the remote repository. You use forking and pull requests to make a change and then ask a repository owner to merge your changes into the remote repository
+ * 'git clone' can also clone a local repository.  
+ * fork
+   * clone a repository from someone elses remote account to your remote account
+ * You can edit files in remote repositories on line through the browser
+ * Once you have forked a repository and made the changes you think should be made, you request that the original owner add in the changes you made with a pull request
+ * pull request:
+   * there is a button called pull request - press this
+   * this request automatically goes back to the original repository owner
+   * this previews the changes
+   * write a message about the changes you made
+   * press the 'send pull request' button to send the request to the original repository's owner
+   * this opens an issue on your account on github
+   * You can view your pull requests via the pull request button on the left
+   * you and the original owner can have a conversation about the change
+   * You can also look at the files and comment directly 
+   * If you modify a file (maybe to address comments) it automatically updates the pull request with the changes
+   * The owner can 'merge the pull request' and github merges the pull request and merges the commits you made into the history of the main project.
+
+Greg added a new file to the repository. Go to the repository you cloned yesterday called 2013-09-13-stsci and type:
+ * git pull
+Now that you know how to put your code on github...
+ * are you allowed to put code you write at work on github? Github is a private company
+ * Dole-Bay legislation - Univerities are legally obliged to try to realize the finacial gains of research whenever possible.
+   * the numbers of patents per professor have increased greatly since
+ * There is no legal precident as to whether you can give away code
+ * Does the institute have a written policy?
+
+Testing
+ * Polygon overlay: given two axis-aligned rectangles with integer coordinates (x0, y0) and (x1, y1), come up with two tests to tell if a function that returns their overlap is correct
+ * Two interesting, useful, tests
+   * no-overlap
+   * complete overlap
+ * What is an acceptable rectangle?
+   * straight line?
+   * single point?
+   * NULL?
+ * Testing FORCES you to decide on the answers to these questions.  You do NOT want results to be ambiguous.  
+ * TDD ( test-driven developement ) imporoves codeing by:
+   * defining behavior FIRST
+   * not letting you rationalize code after the fact
+   * actually gets you to write the tests, instead of procrastinating
+   * When all of the tests pass, you are done with your program
+ * ears()
+   * finds all functions which start with test and runs them. It then gives you a summary of the results
+   * a trimmed down version of nose (a unit test module for python)
+ * Write tests to test if a string contains letters other than A,G, C, T
+ * Test that tests that should fail, fail and that tests that should pass pass
+
+We wrote these tests before we wrote the function
+
+def test_1():
+    assert moka([]) == []
+
+def test_2():
+    assert moka([1]) == [1]
+
+def test_3():
+    assert moka([1, 2]) == [1, 3]
+
+def test_4():
+    assert moka([1, 2, 3]) == [1, 3, 6]
+
+def test_5():
+    assert moka([1, 2, 3, 1, 2, 3]) == [1, 3, 6, 1, 3, 6]
+
+def test_6():
+    assert moka([1, 1, 2]) == [1, 1, 3]
+
+def test_7():
+    assert moka([1, 3, 6, 2, 5]) == [1, 4, 10, 2, 7]
+
+def test_8():
+    assert moka([1, 3, 3, 5]) == [1, 4, 3, 8]
+
+Now, write the function
+ * first, return nothing
+ * don't try to write a function which passes all tests at one time. write a function which passes one test at a time
+There are tools which checkout the most recent version of your code, run your tests, and visually displays how it goes. e.g. public.kitware.com/dashboard.php, https://jenkins.shiningpanda-ci.com/astropy/
+
+Numpy
+Setup:
+ * cd 2013-09-16-stsci/lessons/python-astro
+ * ipython notebook --pylab
+ * Open the StudentNotebook
+ * In notebook, type:  import numpy as np
+
+Why use Numpy:
+ * Numpy is extremly fast when working with large data sets.  
+   * It is fast when creating large arrays.  E.g. A = np.arange(1000000)
+   * It is fast when working with large arrays.  E.g. Z = A * B * C
+
+NOTE: Can use 'time' module to see how long a specific command takes.  E.g.: 
+ * import time
+ * start_time = time.time()
+ * end_time = time.time()
+ * print 'This took: ', end_time - start_time
+
+NOTE: An int in Python is larger than 32bit.  This is because it is an object, and as such has methods and attributes attached to it.
+
+Using Numpy:
+ * Sometimes best to start with a list if you will be appending.  When appending using Numpy you loose a lot of the efficiency.  Can convert a list to a Numpy array:
+   * x_list = range(10)
+   * x_array = np.array(x_list)
+ * Can also make a Numpy array directly:
+   * x_array = np.arange(10)
+ * Can check if you have a list or an array by using 'type'
+   * print type(x_list)
+   * print type(x_array)
+ * A Numpy array, as with all objects, has methods  (functions attached to an object, e.g. functions in a class):
+   * x_array.max()
+   * x_array.min()
+   * x_array.mean()
+ * A Numpy array, as with all objects, has attributes:
+   * x_array.shape
+   * x_array.dtype
+ * Of course, if you do not like object oriented programming, you can use functions:
+   * np.max(x_array)
+   * np.min(x_array)
+   * np.shape(x_array)
+   * np.mean(x_array)
+ * Can sort returning a sorted array, or returning indices that will sort your array:
+   * sorted_array = np.sort(x_array)
+   * index = np.argsort(x_array)
+   * print sorted_array, x_array[index]
+
+Reading in text files:
+ * from astropy.io import ascii
+ * infile = ''../../data/astro/solarsystem.txt''
+ * data = ascii.read(infile, data_start = 5, names = ['Name', '#', 'Orbits', 'Distance', 'period', 'Incl', 'Eccen'])
+ * data.colnames
+ * print solar_system_data['Name']
+ * orbits_sun_indx = np.where(data['Orbits'] == 'Sun')
+ * print orbits_sun_indx
+ * print data['Name'][orbits_sun_indx]
+
+NOTE: Cool built-in Python function, map(function, iterable).  E.g., converting a list of strings to a list of floats, which you can't do by saying float(mylist).  If you don't believe me, try it.
+ * list_of_strings = ['1', '2', '3', '4']
+ * Can use list comprehension:
+   * list_of_floats = [float(item) for item in list_of_strings]
+ * Or, use map():
+   * list_of_floats = map(float, list_of_strings)
+
+AstroPy:
+ * PyFITS is now part of AstroPy
+ * from astropy.io import fits
+ * infile = '../../data/astro/o8k801030_flt.fits'
+ * ofile = fits.open(infile)
+ * img = ofile[1].data    # 1 is the extension of the data we want
+ * header = ofile[0].header  # 0 is the extension of the header we want
+ * ofile.info()   # To print what is in each extension and size of ImageHDU extensions
+ * header['aperature']
+ * header['targname']
+ * img.shape OR np.shape(img)
+ * Numpy arrays are (y, x) NOT (x, y).  This is different from IDL.
+ * It will be faster to loop over 'y' first, then 'x'.  This way you are looping over the prefered axis.  
+
+PyPlot:
+ * from matplotlib import pyplot
+ * pyplot.imshow(img, interpolation = 'nearest')
+ * In the window that pops up, you can zoom, pan, save, etc.
+   * Home takes you to the origional image
+   * Save will save in whatever format you give (.pdf, .tiff, .png, etc)
+ * Specify a colormap:
+   * pyplot.imshow(img, interpolation = 'nearest', cmap = 'bone')
+   * 'bone' is grey scale colormap
+ * Save plot to a variable and manipulate:
+   * plt_img = pyplot.imshow(img, interpolation = 'nearest', cmap = 'bone')
+   * This allows us to manipulate the image (in ipython notebook try 'plt_img.' and then 'tab' key for drop down menu of options)
+   * plt_img.get_clim()      #Get contrast limits (colormap limits)
+   * plt_img.set_clim(0, 50)
+   * pyplot.draw()             #draw most recent update
+   * plt_img.set_cmap('hot')
+ * Mask out pixels:
+   * not_aurora_indx = np.where(img <= 5.0 * np.mean(img))
+   * img[not_aurora_indx] = 0
+   * pyplot.imshow(img, interpolation = 'nearest')
+ * Save plot to a file:
+   * pyplot.savefig('aurora.pdf')
+
+NOTE: Numpy's where() funtion returns (for a 2D input array) two tuples, the first is the 'y' values, and the second is the 'x' values.  The x,y pairs are array coordinates.
+
+Table Data:
+ * ofile = fits.open('../../data/astro/lbxm1b010_x1dsum.fits')
+ * tbdata = ofile[1].data
+ * tbdata.columns
+ * tbdata.names
+ * wl = tbdata['wavelengths']
+ * flux = tbdata['flux']
+
+Line plots with PyPlot (e.g. spectra):
+ * pyplot.plot(wl[0], flux[0])
+ * pyplot.plot(wl[1], flux[1])
+ * pyplot.xlabel('Wavelength $\AA$')
+ * pyplot.ylabel('Flux')
+ * pyplot.title('WD0308-565')
+ * pyplot.legend('First Data', 'Second Data', loc = 'best')
+
+Fit a first order polynomial with Numpy's polyfit()
+ * coeff = np.polyfit(wl[0], flux[0])
+ * yfit = np.polyval(coeff, wl[0])
+ * pyplot.plot(wl[0], yfit)
+
+Other useful PyPlot commands:
+ * linestyle - ':', '--', '-', ':-', ':--'
+ * linewidth
+ * marker - '.', 'o', 'v', '^', '*', 's', 'p', 'd'
+ * color - default colors it cycles through or you can specify with name or hexidecimal ('b', 'g', 'r', 'c', 'm', 'y', 'k')
+
+AstroPy fits convienience commands:
+ * pyfits.getdata(filename, ext)
+ * pyfits.getval(filename, keyword, ext)
+ * pyfits.getheader(filename, ext)
+ * pyfits.setval(filename, keyword, value = value, ext = ext)
+
+Resources:
+ * PyPlot plotting commands: http://matplotlib.org/api/pyplot_summary.html
+ * PyLunch (meetup group at the institute, but can also just join the mailing list, pylunch@stsci.edu)
+ * python-interested@stsci.edu (mailing list at the institute)
+ * 
+MATPLOTLIB REFERENCES:
+ * http://matplotlib.org/
+ * http://astroplotlib.stsci.edu/
+ * 
+
+====================================================================
+2 ways to program:
+ * we make due with what we have. Chaos
+ * there is a manual
+ * Agile (optimistic)
+   * lots of iterations
+   * continuous feedback
+   * continous coarse correction
+ * standard
+   * lots of up front planning
+   * measure twice, cut once
+ * Both right and both wrong
+Standard Model
+    You know what you're doing (you've done this before). The cost of depolyment is expensive
+    Product manager:
+   * Talk to users and ask:
+     * What is it doing that you don't like?
+     * What should it be doing?
+   * translate into a list of features
+    Hand features to developers - how long will it take to do this
+    Return with a design
+    How many lines of code can you write in a day? 
+   * you get paid to write code, why don't you know this?
+   * with a version control system, you can start to estimate this
+    Product manages cannot ask you to do things faster
+    you have to take feed back from the product manager on how well you estimated your work the last time you did this
+
+    Importance vs Effort:
+   * use a sticky note for each feature
+   * start with low effort and high importance
+   * Work your way down diagonally
+    Purpose of a schedule: tell you when to start cutting corners
+    The further in advance you can warn a customer that a feature isn't comming the better
+
+    Testing should happen at the same time of implementation. If it has been more than a few  days since you worked on a code, then you have to relearn it
+
+    If the documentation person can't explain it, then they can ask you to redesign it
+
+    Freeze features about 2/3 of the way to release, it takes about 1/3 of the time to work out the bugs in features you have already tested.
+    
+Agile:
+ * you can deploy frequentlyi
+ * nner feedback loop- pair programming
+   * 1 keyboard, 2 people
+   * 1 person writing the functions, another person looking over their sholder saying you forgot that or you're missing that
+   * 2 people bring different perspectives
+   * social cognition - someone you can bounce ideas off in real time
+ * Next level: test driven development:
+   * red, green, refactor
+   * tests but no code, working code, make the code better
+ * Next loop: continous integration
+   * complete end to end test
+   * longer tests
+   * put together all features
+ * Sprint:
+   * get together and define a project that can be done in 1-2 weeks
+   * figure out what you are going to do to get there
+   * product a result that you can hand off to someone for a final report
+
+Live code for 10 minutes in pylunch
+Having someone look at your code who can tell you a better way 
+
+SOFTWARE LICENSES:
+ * closed
+ * Open
+   * GNU Public License: this software is free, you can do anything you want, but if you distribute modifications, you have to distribute the source code and attach this license
+   * BSD/MIT: here is the software, we accept no liability, you have to give us credit as authors
+     * Greg prefers this one, it leaves you the most options open for the future. BSD/MIT code can become GPL, but it doesn't work the other way
+   * Creative Commons License (for data):
+     * CC-By: you can do whatever you want, but you have to give me credit  (recommended by Greg)
+     * CC-ND - no-derivative - you can copy but not change
+     * CC-NC - non-commercial - you cannot make money - can't include research in a book because the book costs money
+     * CC-SA - share-alike - when you copy it and change it, it has to come with the same restrictions
+     * CC-0 - no credit, do what ever you want (HST data)
+
+
