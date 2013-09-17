@@ -1,0 +1,128 @@
+Basic Python:
+
+Setup:
+>> cd 2013-09-16-stsci/lessons/stsci-python/
+
+To start python, in terminal type:
+>> ipython
+
+To open an ipython notebook, in terminal type:
+>> ipython notebook
+This will open a notebook in your browser.  You will have two options:
+1) stsci-python (Justin's notebook, located in the current directory)
+2) New Notebook (choose to create your own)
+
+Can import packages with 'import', e.g.:
+import math
+import numpy
+import pyfits
+
+basic arithmetic in the notebook:
+2+3
+5*7
+x = 3.14159 * 2 + 3
+print x
+
+use \ at the end of a line to continue to the next line (in cases where it's not obvious)
+
+Indexing:
+h= "hello"
+h[1] => "3"
+h[0:4] => "hell" (does not include upper element)
+h[:4] => "hell" (skip the first index, defaults to 0)
+h[2:] => "llo" (skip the second, defaults to the end)
+h[::-1] => "olleh" (provide a stride as the third part of the index)
+
+Lists:
+my_list = [1, 2, 3, 'four', 'five', [6, 7, 8]]
+my_list[3] => 'four'
+
+Exercise: create a variable holding the name of your favorite astronomical target
+use dir(variable) to look at what it can do
+ * make everything all-caps
+ * count occurrences of each vowel
+
+Use help(something) to get help on almost anything
+
+Import examples:
+import math
+from math import sqrt (if I only need sqrt, and I will remember NOT to name a variable 'sqrt' and overwrite my function)
+
+Built-in data types (incomplete list):
+strings
+floats
+ints
+lists
+tuples
+sets
+dictionaries
+
+Tuples:
+ - unchangable data containers (e.g. a list of filters you know you don't need to modify, use a tuple instead)
+ Example:
+ my_filters = ('F160W', 'F154W', 'F1550W')
+
+Numpy arrays:
+- Each element has to be of same type
+- Useful for mathematical / statistical operations
+- Array arithmetic is different from list arithmetic
+Example:
+import numpy
+a = [1,2,3,4]  #a list
+b = numpy.array(a)  #an array
+
+NOTE: ipython notebook has tab-completion.  For example, if you type 'numpy.' and then the 'tab' key, you will see a drop-down menu of options.
+
+Sets:
+- Python has built in support for mathematical sets.
+- Not ordered, therefore cannot access 0th order of a set (cannot index)
+Example:
+a = {1, 1, 2, 3, 4, 5, 5}
+
+Dictionaries:
+- linked key and value pairs
+Examples:
+my_galaxies = {'M31' : {'RA': '00:42:44.3', 'Dec': '41:16:09'}, 
+                        'M100': {'RA': '12:22:54.9', 'Dec': '15:49:21'}}
+print my_galaxies['M31']['RA']
+print my_galaxies['M31']['Dec']
+
+Loops:
+all_values = [2, 3, 45, 22]
+#I want to loop through my list
+for item in all_values:   
+    print item
+#I want to loop through my list and access the index
+for i, item in enumerate(all_values):
+    print i, item, all_values[i]
+# I want to access list elements by the index
+for i in xrange(len(all_values)):
+    print i, all_values[i]
+
+Conditional Statements:
+Bitwise and: '&'
+Logical and: 'and'
+a == b 
+a <= b 
+a >= b 
+a != b
+If a < 5:
+    print 'small a: ', a
+elif a == 5:
+    print 'a is 5: ', a
+else:
+    print 'big a:', a
+
+
+
+Object Oriented Programming:
+- Allows you to make code that can be used by any new code that you will write in the future.
+- When you create a function you store those instructions in memory.
+- If you have a function, called 'add1' for example, can have another variable point to that function:
+chosen_function = add1
+- You can also pass functions to other functions:
+do_all(add1, [3, 4, 7])
+- If you want to carry along some information / data along with your functions, you need a class.
+
+
+
